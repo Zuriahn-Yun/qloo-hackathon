@@ -40,5 +40,19 @@ class qloo:
 #llama_api = llama()
 #llama_api.prompt()       
 
-qloo_api = qloo()
-qloo_api.test()
+import requests
+import os
+
+# First, search for artists to get valid URNs
+search_url = "https://hackathon.api.qloo.com/v2/insights/?filter.type=urn:entity:movie&filter.tags=urn:tag:genre:media:comedy&filter.release_year.min=2022"
+
+headers = {
+    "accept": "application/json",
+    "X-Api-Key": os.getenv("QLOO_API_KEY")
+}
+
+search_response = requests.get(search_url, headers=headers)
+print("Search results:")
+print(search_response.text)
+
+# Then use a valid URN from the search results in your insights query

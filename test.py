@@ -98,7 +98,7 @@ class llama():
         
         prompt = (
         "I am going to give you output from a QLOO API. "
-        "If this were marketing data, how useful is this to you, and how could you use it to increase revenue and sales?\n\n"
+        "If this were marketing data, how useful is this to you, and how could you use it to increase revenue and sales?, How many of these could you receive at a time? HOw do i increase your token window?\n\n"
         "Basic Insights:\n" + basic 
         # "\n\nDemographics:\n" + demo +
         # "\n\nHeatmaps:\n" + mapp +
@@ -111,6 +111,7 @@ class llama():
                     messages=[
                         {"role": "user", "content": prompt},
                     ],
+                    max_completion_tokens="4096",
                 )
         print(response)
         return response

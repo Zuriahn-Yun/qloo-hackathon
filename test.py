@@ -105,14 +105,18 @@ class llama():
         # "\n\nLocation Insights:\n" + location +
         # "\n\nTaste Analysis:\n" + taste
         )
-        ## LLAMA can only really look at one of these at a time, more than that does not function
+        ## LLAMA can only really look at one of these at a time, more than that does not function        
         response = self.client.chat.completions.create(
-                model="Llama-4-Maverick-17B-128E-Instruct-FP8",
-                    messages=[
-                        {"role": "user", "content": prompt},
-                    ],
-                    max_completion_tokens="4096",
-                )
+            messages=[{"role": "user","content":prompt}
+            ],
+            model="Llama-4-Maverick-17B-128E-Instruct-FP8",
+            temperature=0.6,
+            max_completion_tokens=4096,
+            repetition_penalty=1,
+        )
+        
+        # for chunk in response:
+        #     print(chunk)
         print(response)
         return response
     

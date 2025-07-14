@@ -36,4 +36,16 @@ response = requests.post(
 		]
 	}
 )
-print(response.text)
+import json
+
+stringy = response.json()
+
+text = stringy['completion_message']
+
+
+content = text['content']
+
+from bs4 import BeautifulSoup
+
+final = BeautifulSoup(content['text'],'html.parser').get_text
+print(final)

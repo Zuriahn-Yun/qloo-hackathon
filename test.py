@@ -119,7 +119,6 @@ class llama():
         #     print(chunk)
         print(response)
         return response
-    
         
 llama_api = llama()
 llama_api.test()    

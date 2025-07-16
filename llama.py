@@ -90,20 +90,9 @@ class llama():
         return response
         
     def test(self):
-        basic = basic_insights()
-        demo = demographics()
-        mapp = heatmaps()
-        location = location_insights()
-        taste = taste_analysis()
-        
+                
         prompt = (
-        "I am going to give you output from a QLOO API. "
-        "If this were marketing data, how useful is this to you, and how could you use it to increase revenue and sales?, How many of these could you receive at a time? HOw do i increase your token window?\n\n"
-        "Basic Insights:\n" + basic 
-        # "\n\nDemographics:\n" + demo +
-        # "\n\nHeatmaps:\n" + mapp +
-        # "\n\nLocation Insights:\n" + location +
-        # "\n\nTaste Analysis:\n" + taste
+        "WHAT IS A CREATECHATCOMPLETIONRESPONSE OBJECT HOW DO I JUST GET TEXT THAT IS NOT IN HTML FORMAT FROM THIS OBJECT"
         )
         ## LLAMA can only really look at one of these at a time, more than that does not function        
         response = self.client.chat.completions.create(
@@ -119,6 +108,19 @@ class llama():
         #     print(chunk)
         print(response)
         return response
+    
+    """ Get Brand Insights and Retrieve Llama output """
+    def brand_insights(self,brand_data):
         
-llama_api = llama()
-llama_api.test()    
+        prompt = (
+        "I am going to give you output for a BRAND, I want you to analyze it and retrieve all the most important insights from the data. RETURN THE MOST IMPORTANT ASPECTS AND RETAIN ALL THE IMPORTANT INFO IN A WELL ORGANIZED RESPONSE KEPT TO 300 WORDS. \n "
+        "BRAND Insights:\n" + brand_data 
+        )  
+        response = self.client.chat.completions.create(
+            
+            messages=[{"role": "user","content":prompt}
+            ],
+            model="Llama-4-Maverick-17B-128E-Instruct-FP8",
+        )
+        
+        return response

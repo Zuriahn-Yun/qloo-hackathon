@@ -6,9 +6,12 @@ import os
 import requests
 import json
 
-def taste_analysis():
-    search_url = "https://hackathon.api.qloo.com/v2/insights?filter.type=nutella%3Atag&filter.tag.types=urn%3Atag%3Akeyword%3Amedia&filter.parents.types=urn%3Aentity%3Amovie%2C%20urn%3Aentity%3Atv_show"
 
+# This si for searching for brands
+def taste_analysis(brand):
+    name = str(brand).lower()
+    search_url = "https://hackathon.api.qloo.com/search?query=" + brand + "&filter.radius=10&operator.filter.tags=union&page=1&sort_by=match"
+    
     headers = {
         "accept": "application/json",
         "X-Api-Key": os.getenv("QLOO_API_KEY")
@@ -18,8 +21,17 @@ def taste_analysis():
     ## Pretty Print in JSON format 
     data = search_response.json()
     json_format = json.dumps(data,indent=2)
-    print(json_format)
+    #print(json_format)
     return json_format
 
-taste_analysis()
+brands = ["NUTELLA","monster","NUTELLA","PEPSI"]
+    
+from llama import llama
+
+llama_api = llama()
+data = taste_analysis("nutella")
+
+output = llama.brand_insights(llama_api,brand_data=data)
+
+print(output)
 

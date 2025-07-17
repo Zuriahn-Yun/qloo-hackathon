@@ -1,19 +1,19 @@
-class Agent:
-    " llama 4 agent, using qloo api " 
-    
+class Agent: 
     def __init__(self):
         from llama import llama
+        from tools import brand_analysis,location_analysis,extract_online_image_data
+        
         llama_api = llama()
         
+        tools = {
+            "brand_analysis" : brand_analysis,
+            "location_analysis" : location_analysis,
+            "extract_online_image_data" : extract_online_image_data,
+        }
         
-    def run(self):
-        print("...running")
-        tools = [
-            self.brand_analysis()
-        ]
-        
-        
-    """ USE QLOO API TO RETRIEVE BRAND DATA """
-    def brand_analysis(self,brand):
-        from tools import brand_analysis
-        return brand_analysis(brand)
+def main():
+    while True:
+        print(4)
+    
+if __name__ == "__main__":
+    main()

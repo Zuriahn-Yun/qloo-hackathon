@@ -23,9 +23,10 @@ def brand_analysis(brand):
     search_response = requests.get(search_url, headers=headers)
     ## Pretty Print in JSON format 
     data = search_response.json()
+    """ FOR PRETTY PRINT AND JSON FORMAT, OTHERWISE RETURN DATA """
     json_format = json.dumps(data,indent=2)
     #print(json_format)
-    return json_format
+    return data
 
 def location_analysis(location):
    
@@ -57,9 +58,43 @@ def location_analysis(location):
     json_format = json.dumps(data,indent=2)
     print(json_format)
     return json_format
+
+def extract_online_image_data(url):
+    from llama_api_client import LlamaAPIClient
+    client = LlamaAPIClient()
     
+    url = str(url)
+    
+    response = client.chat.completions.create(
+    model="Llama-4-Maverick-17B-128E-Instruct-FP8",
+	messages=[
+        {
+            "role": "user",
+            "content": [
+                	{
+                    "type": "text",
+                    "text": "DESCRIBE THIS IMAGE FOR MARKET ANALYSIS",
+                	},
+                	{
+                    "type": "image_url",
+                    "image_url": {
+                        "url": url,
+                    	},
+                	},
+				]
+			}
+		]
+	)
+    
+    return response.completion_message.content.text
 def main():
-    location_analysis("bellevue")
+    
+    """
+    location_analysis -> retrieve QLOO data about a location
+    brand_analysis -> retrieve QLOO data about a brand
+    extract_online_image_data -> uses LLAMA for image analysis  
+    
+    """
     
 if __name__ == "__main__":
     main()

@@ -45,44 +45,44 @@ def extract_online_image_data(url):
 			}
 		]
 	)
-    print(response.completion_message.content.text)
+    
     return response.completion_message.content.text
 
-# Read an image from the directory where this script is running
-base64_image = image_to_base64("fridge.jpg")
+def extract_local_image(url):
+	# Read an image from the directory where this script is running
+	base64_image = image_to_base64("fridge.jpg")
 
-response = requests.post(
-	url="https://api.llama.com/v1/chat/completions", 
-	headers={
-		"Content-Type": "application/json",
-	    "Authorization": f"Bearer {os.getenv('LLAMA_API_KEY')}"
-	},
-	json={
-		"model": "Llama-4-Maverick-17B-128E-Instruct-FP8",
-		"messages": [
-			{
-				"role": "user",
-				"content": [
-					{
-                        "type": "text",
-                        "text": "List every item in the image and its amount.",
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/jpeg;base64,{base64_image}"
-                        },
-                    },
-				],
-			},
-		]
-	}
-)
+	response = requests.post(
+		url="https://api.llama.com/v1/chat/completions", 
+		headers={
+			"Content-Type": "application/json",
+			"Authorization": f"Bearer {os.getenv('LLAMA_API_KEY')}"
+		},
+		json={
+			"model": "Llama-4-Maverick-17B-128E-Instruct-FP8",
+			"messages": [
+				{
+					"role": "user",
+					"content": [
+						{
+							"type": "text",
+							"text": "List every item in the image and its amount.",
+						},
+						{
+							"type": "image_url",
+							"image_url": {
+								"url": f"data:image/jpeg;base64,{base64_image}"
+							},
+						},
+					],
+				},
+			]
+		}
+	)
 
-extract_text_from_json(response)
+	return extract_text_from_json(response)
 
 def main():
-    print("Hello")
     extract_online_image_data("https://images.qloo.com/i/3BCAD204-8191-4A9D-A403-6EAB344A98DE-0J2q58-420x-outside.jpg")
     
 if __name__ == "__main__":

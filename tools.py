@@ -28,9 +28,21 @@ def brand_analysis(brand):
     return json_format
 
 def location_analysis(location):
-    name = str(location).lower()
-    split = name.split(" ")
-    search_url = "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Aplace&bias.trends=high&feature.explainability=false&filter.geocode.admin1_region=NY&filter.location.query=new%20york&filter.location.radius=15000"
+   
+    def parse(location):
+        split = location.split(" ")
+        res = ""
+        for i in range(len(split)):
+            if i == len(split) - 1:
+                res = res + split[i]
+            else:
+                res = res + split[i] + "%20"
+        return res
+    
+    res = parse(location)
+    
+            
+    search_url = "https://hackathon.api.qloo.com/v2/insights?filter.type=urn%3Aentity%3Aplace&bias.trends=high&feature.explainability=false&filter.location.query=" + res + "&filter.location.radius=15000"
     
     
     headers = {
@@ -39,23 +51,15 @@ def location_analysis(location):
     }
 
     search_response = requests.get(search_url, headers=headers)
+    
     ## Pretty Print in JSON format 
     data = search_response.json()
     json_format = json.dumps(data,indent=2)
     print(json_format)
     return json_format
     
-
 def main():
-    test = "lost angeles"
-    split = test.split(" ")
-    res = ""
-    for i in range(len(split)):
-        if i == len(split) - 1:
-            res = res + split[i]
-        else:
-            res = res + split[i] + "%20"        
-    print(res)
+    location_analysis("bellevue")
     
 if __name__ == "__main__":
     main()

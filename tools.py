@@ -1,14 +1,14 @@
 #   https://docs.qloo.com/reference/parameters
 #   https://docs.qloo.com/reference/taste-analysis
-# https://docs.qloo.com/reference/available-parameters-by-entity-type#brand
+#   https://docs.qloo.com/reference/available-parameters-by-entity-type#brand
 
 import os
 import requests
 import json
-
+from llama import llama
 
 # This si for searching for brands
-def taste_analysis(brand):
+def brand_analysis(brand):
     name = str(brand).lower()
     search_url = "https://hackathon.api.qloo.com/search?query=" + brand + "&filter.radius=10&operator.filter.tags=union&page=1&sort_by=match"
     
@@ -24,14 +24,18 @@ def taste_analysis(brand):
     #print(json_format)
     return json_format
 
-brands = ["NUTELLA","monster","NUTELLA","PEPSI"]
+def main():
+    brands = ["NUTELLA","monster","NUTELLA","PEPSI"]
+
+    llama_api = llama()
+    data = brand_analysis("nutella")
+
+    output = llama.brand_insights(llama_api,brand_data=data)
+
+    print(output)
     
-from llama import llama
+if __name__ == "__main__":
+    main()
 
-llama_api = llama()
-data = taste_analysis("nutella")
 
-output = llama.brand_insights(llama_api,brand_data=data)
-
-print(output)
 

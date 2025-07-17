@@ -1,5 +1,5 @@
 class Agent:
-    
+    " llama 4 agent, using qloo api " 
     
     def __init__(self):
         from llama import llama
@@ -16,4 +16,4 @@ class Agent:
     """ USE QLOO API TO RETRIEVE BRAND DATA """
     def brand_analysis(self,brand):
         from tools import brand_analysis
-        return brand_analysis(brand=brand)
+        return brand_analysis(brand)

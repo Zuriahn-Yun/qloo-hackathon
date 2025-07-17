@@ -40,7 +40,7 @@ class llama():
         return response
     
     """ Get Brand Insights and Retrieve Llama output """
-    def brand_insights(self,brand_data):
+    def brand_test(self,brand_data):
         
         prompt = (
         "I am going to give you output for a BRAND, I want you to analyze it and retrieve all the most important insights from the data. RETURN THE MOST IMPORTANT ASPECTS AND RETAIN ALL THE IMPORTANT INFO IN A WELL ORGANIZED RESPONSE KEPT TO 300 WORDS. \n "
@@ -54,6 +54,7 @@ class llama():
         )
         
         return response
+    
 def main():
     llama = llama()
     

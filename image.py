@@ -19,6 +19,35 @@ def extract_text_from_json(response):
 	print(final)
 	return final
 
+def extract_online_image_data(url):
+    from llama_api_client import LlamaAPIClient
+    client = LlamaAPIClient()
+    
+    url = str(url)
+    
+    response = client.chat.completions.create(
+    model="Llama-4-Maverick-17B-128E-Instruct-FP8",
+	messages=[
+        {
+            "role": "user",
+            "content": [
+                	{
+                    "type": "text",
+                    "text": "DESCRIBE THIS IMAGE FOR MARKET ANALYSIS",
+                	},
+                	{
+                    "type": "image_url",
+                    "image_url": {
+                        "url": url,
+                    	},
+                	},
+				]
+			}
+		]
+	)
+    print(response.completion_message.content.text)
+    return response.completion_message.content.text
+
 # Read an image from the directory where this script is running
 base64_image = image_to_base64("fridge.jpg")
 
@@ -52,3 +81,9 @@ response = requests.post(
 
 extract_text_from_json(response)
 
+def main():
+    print("Hello")
+    extract_online_image_data("https://images.qloo.com/i/3BCAD204-8191-4A9D-A403-6EAB344A98DE-0J2q58-420x-outside.jpg")
+    
+if __name__ == "__main__":
+    main()

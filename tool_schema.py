@@ -8,44 +8,44 @@
 tool_descriptions = [
     {
         "name": "brand_analysis",
-        "description": "Searches local files for a given keyword.",
+        "description": "RETRIEVES INSIGHT FROM THE NAME OF A BRAND",
         "parameters": {
             "type": "object",
             "properties": {
-                "keyword": {
+                "brand_name": {
                     "type": "string",
-                    "description": "The keyword to search for",
+                    "description": "The NAME OF THE BRAND",
                 }
             },
-            "required": ["keyword"]
+            "required": ["brand"]
         }
     },
     {
         "name": "location_analysis",
-        "description": "Evaluates a mathematical expression.",
+        "description": "RETRIEVES ANALYTICS REGARDING A LOCATION",
         "parameters": {
             "type": "object",
             "properties": {
-                "expression": {
+                "location": {
                     "type": "string",
-                    "description": "A mathematical expression to evaluate",
+                    "description": "the name of the location",
                 }
             },
-            "required": ["expression"]
+            "required": ["location"]
         }
     },
     {
         "name": "extract_online_image_data",
-        "description": "Evaluates a mathematical expression.",
+        "description": "Evaluates an image",
         "parameters": {
             "type": "object",
             "properties": {
-                "expression": {
+                "url": {
                     "type": "string",
-                    "description": "A mathematical expression to evaluate",
+                    "description": "A PUBLIC URL PROVIDED FROM location_analysis or brand_analysis",
                 }
             },
-            "required": ["expression"]
+            "required": ["url"]
         }
     },
 ]

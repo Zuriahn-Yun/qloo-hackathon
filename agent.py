@@ -2,6 +2,7 @@ class Agent:
     def __init__(self):
         from llama import llama
         from tools import brand_analysis,location_analysis,extract_online_image_data
+        from tool_schema import tool_descriptions
         
         llama_api = llama()
         

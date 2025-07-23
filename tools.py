@@ -6,6 +6,8 @@ import os
 import requests
 import json
 from llama import llama
+from dotenv import load_dotenv
+load_dotenv()
 
 ### INSIGHTS PAGE https://docs.qloo.com/reference/insights-api-deep-dive 
 
@@ -95,6 +97,10 @@ def main():
     extract_online_image_data -> uses LLAMA for image analysis  
     
     """
+    llama_api = llama()
+    
+    brand_output = brand_analysis("nutella")
+    print(llama_api.brand_test(brand_output))
     
 if __name__ == "__main__":
     main()

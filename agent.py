@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 class Agent: 
     def __init__(self):
         from llama import llama

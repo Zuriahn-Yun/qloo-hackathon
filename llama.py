@@ -2,6 +2,8 @@ import os
 from llama_api_client import LlamaAPIClient
 import requests  
 import json
+from dotenv import load_dotenv
+load_dotenv()
     
 class llama():
     def __init__(self):
@@ -52,11 +54,12 @@ class llama():
             ],
             model="Llama-4-Maverick-17B-128E-Instruct-FP8",
         )
-        
+        print(response.completion_message.content.text)
         return response
     
 def main():
-    llama = llama()
+    llama_api = llama()
+    llama_api.brand_test("nutella")
     
 if __name__ == "__main__":
     main()

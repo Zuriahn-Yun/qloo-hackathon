@@ -3,6 +3,8 @@ import os
 import requests
 import json
 from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+load_dotenv()
 
 def image_to_base64(image_path):
   with open(image_path, "rb") as img:

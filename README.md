@@ -1,0 +1,1 @@
+We can now generate reports -> grab real world data -> clean the data -> pass to agent and -> generate reports and make decisive decisions -> deploy for hackathon

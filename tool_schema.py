@@ -8,27 +8,27 @@
 tool_descriptions = [
     {
         "name": "brand_analysis",
-        "description": "RETRIEVES INSIGHT FROM THE NAME OF A BRAND",
+        "description": "RETRIEVES INSIGHT FROM THE NAME OF A BRAND using Qloo API",
         "parameters": {
             "type": "object",
             "properties": {
-                "brand_name": {
+                "brand": {  # Fixed: was "brand_name" in description but "brand" in required
                     "type": "string",
-                    "description": "The NAME OF THE BRAND",
+                    "description": "The NAME OF THE BRAND to analyze",
                 }
             },
             "required": ["brand"]
         }
     },
     {
-        "name": "location_analysis",
-        "description": "RETRIEVES ANALYTICS REGARDING A LOCATION",
+        "name": "location_analysis", 
+        "description": "RETRIEVES ANALYTICS REGARDING A LOCATION using Qloo API",
         "parameters": {
             "type": "object",
             "properties": {
                 "location": {
                     "type": "string",
-                    "description": "the name of the location",
+                    "description": "The name of the location to analyze",
                 }
             },
             "required": ["location"]
@@ -36,13 +36,13 @@ tool_descriptions = [
     },
     {
         "name": "extract_online_image_data",
-        "description": "Evaluates an image",
+        "description": "Evaluates an image for marketing analysis using Llama vision",
         "parameters": {
             "type": "object",
             "properties": {
                 "url": {
                     "type": "string",
-                    "description": "A PUBLIC URL PROVIDED FROM location_analysis or brand_analysis",
+                    "description": "A PUBLIC URL of an image to analyze",
                 }
             },
             "required": ["url"]

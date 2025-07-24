@@ -16,8 +16,7 @@ class Agent:
         }
         
 def main():
-    while True:
-        print(4)
+    print("NO errror")
     
 if __name__ == "__main__":
     main()

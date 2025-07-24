@@ -1,19 +1,29 @@
 from dotenv import load_dotenv
+import os
+from llama_api_client import LlamaAPIClient
+import json
+
+# Import tools and Schema
+from tools import brand_analysis, location_analysis, extract_online_image_data
+from tool_schema import tool_descriptions
+
 load_dotenv()
 
-class Agent: 
+class MarketingAgent:
     def __init__(self):
-        from llama import llama
-        from tools import brand_analysis,location_analysis,extract_online_image_data
-        from tool_schema import tool_descriptions
+        self.llama_client = LlamaAPIClient(
+            api_key=os.getenv("LLAMA_API_KEY"),
+            base_url=os.getenv("base_url"),
+        )
         
-        llama_api = llama()
-        
-        tools = {
-            "brand_analysis" : brand_analysis,
-            "location_analysis" : location_analysis,
-            "extract_online_image_data" : extract_online_image_data,
+        # Register your tools
+        self.tools = {
+            "brand_analysis": brand_analysis,
+            "location_analysis": location_analysis, 
+            "extract_online_image_data": extract_online_image_data
         }
+        
+        self.tool_descriptions = tool_descriptions
         
 def main():
     print("NO errror")

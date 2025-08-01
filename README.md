@@ -11,6 +11,7 @@ image.py: extract data from images
 
 llama.py: testing Llama??
 
+this was cooked
 
 
 

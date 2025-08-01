@@ -82,7 +82,10 @@ def get_report_json():
     
     # Pass all the stored data as arguments to your generate_report function.
     try:
-        report = generate_report(company_name, sales_data, user_query, timeframe)
+        #report = generate_report(company_name, sales_data, user_query, timeframe)
+        with open("marketing_analysis_report.txt", 'r') as file:
+            report = file.read()
+
         if report:
             return jsonify({"report_text": report}), 200
         else:

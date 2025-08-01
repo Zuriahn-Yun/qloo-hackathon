@@ -4,33 +4,57 @@ import json
 from agent import generate_report
 from dotenv import load_dotenv
 import os
-import traceback # Import the traceback module to print detailed error information
+import traceback
+import threading
+import uuid
 
 load_dotenv()
 
 app = Flask(__name__)
 
-# The CORS origin is now explicitly set to your local frontend's URL.
-# This is a more secure and reliable configuration than a wildcard.
-CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
+# The CORS origin has been updated to support a frontend deployed on GitHub Pages.
+# You MUST replace the placeholder URL with your actual GitHub Pages URL.
+# The `origins` list can also contain multiple URLs, for example:
+# origins=['https://your-username.github.io/your-repo-name/', 'http://127.0.0.1:5500']
+CORS(app, origins=['https://your-username.github.io/your-repo-name/'], supports_credentials=True)
 
-# The secret key is explicitly read from an environment variable.
-# The application will fail to start if SECRET_KEY is not set.
 app.secret_key = os.environ.get('SECRET_KEY')
 
-# This is the critical change to ensure the session persists between POST and GET requests.
-# The 'SameSite' attribute is set to 'None' to allow the cookie to be sent with cross-site requests.
-# The 'Secure' attribute is set to True, which is required when 'SameSite' is 'None'.
 app.config.update(
     SESSION_COOKIE_SAMESITE="None",
     SESSION_COOKIE_SECURE=True
 )
 
+# A simple in-memory store for reports and their status.
+# In a production environment, you would use a more persistent solution like Redis.
+report_store = {}
+
+def generate_report_background(session_id, company_name, sales_data, user_query, timeframe):
+    """
+    A function to be run in a background thread to generate the report.
+    It updates the global report_store with the result or an error message.
+    """
+    try:
+        # Set the status to 'generating' so the frontend can poll.
+        report_store[session_id] = {"status": "generating"}
+        
+        # This is the long-running call that would previously time out.
+        report = generate_report(company_name, sales_data, user_query, timeframe)
+        
+        if report:
+            report_store[session_id] = {"status": "completed", "report_text": report}
+        else:
+            report_store[session_id] = {"status": "error", "error": "Report not found"}
+    except Exception as e:
+        print(f"Error in background report generation: {e}")
+        traceback.print_exc()
+        report_store[session_id] = {"status": "error", "error": f"An error occurred: {str(e)}"}
+
 @app.route('/submit_report_data', methods=['POST'])
 def submit_report_data():
     """
-    Receives user input via a POST request and saves all four fields to the session.
-    The frontend will send a JSON payload with the required data.
+    Receives user input via a POST request, saves it to the session,
+    and starts a background task to generate the report.
     """
     if not request.is_json:
         return jsonify({"error": "Request must be JSON"}), 400
@@ -41,11 +65,11 @@ def submit_report_data():
     user_query = data.get('user_query')
     timeframe = data.get('timeframe')
 
-    # Validate that all required fields are present
     if not all([company_name, sales_data, user_query, timeframe]):
         return jsonify({"error": "Missing one or more required fields"}), 400
 
-    # Store all of the user's data in the Flask session.
+    # Assign a unique report ID to this session and store the data
+    session['report_id'] = str(uuid.uuid4())
     session['company'] = company_name
     session['sales_data'] = sales_data
     session['user_query'] = user_query
@@ -56,46 +80,47 @@ def submit_report_data():
     print("Sales Data:", session.get('sales_data'))
     print("User Query:", session.get('user_query'))
     print("Timeframe:", session.get('timeframe'))
+    print("Starting background report generation...")
 
-    return jsonify({"message": "Company, sales data, query, and timeframe saved successfully."}), 200
+    # Start the background task to generate the report.
+    # The session data is passed to the thread.
+    thread_args = (session['report_id'], company_name, sales_data, user_query, timeframe)
+    report_thread = threading.Thread(target=generate_report_background, args=thread_args)
+    report_thread.daemon = True
+    report_thread.start()
+
+    # Immediately return a response to the client.
+    return jsonify({"message": "Data submitted. Report generation started.", "report_id": session['report_id']}), 200
 
 @app.route('/get_report', methods=['GET'])
 def get_report_json():
     """
-    Retrieves the data from the session and uses it to generate the report.
+    Retrieves the report from the in-memory store.
+    This endpoint will be polled by the frontend to check the status of the report.
     """
-    # Retrieve all required data from the session.
-    company_name = session.get('company')
-    sales_data = session.get('sales_data')
-    user_query = session.get('user_query')
-    timeframe = session.get('timeframe')
+    report_id = session.get('report_id')
 
-    print("GET request received. Session data retrieved:")
-    print("Company:", session.get('company'))
-    print("Sales Data:", session.get('sales_data'))
-    print("User Query:", session.get('user_query'))
-    print("Timeframe:", session.get('timeframe'))
+    # If a report_id is not in the session, the user hasn't submitted data yet.
+    if not report_id:
+        return jsonify({"status": "error", "error": "No report has been requested yet."}), 400
 
-    # Check if all data is present
-    if not all([company_name, sales_data, user_query, timeframe]):
-        return jsonify({"error": "Please submit all data first via POST to /submit_report_data"}), 400
+    # Check the status of the report in the store.
+    report_status = report_store.get(report_id)
+
+    # If the report is still generating, tell the frontend to wait.
+    if report_status and report_status['status'] == "generating":
+        return jsonify({"status": "generating"}), 202 # 202 Accepted status for pending tasks
     
-    # Pass all the stored data as arguments to your generate_report function.
-    try:
-        report = generate_report(company_name, sales_data, user_query, timeframe)
-        # with open("marketing_analysis_report.txt", 'r') as file:
-        #     report = file.read()
+    # If the report is complete, return it.
+    if report_status and report_status['status'] == "completed":
+        return jsonify({"status": "completed", "report_text": report_status['report_text']}), 200
 
-        if report:
-            return jsonify({"report_text": report}), 200
-        else:
-            return jsonify({"error": "Report not found"}), 404
-    except Exception as e:
-        # Catch any exception and return a specific error message.
-        # This will prevent the 502 Bad Gateway and give us more information.
-        print(f"Error in generate_report: {e}")
-        traceback.print_exc()
-        return jsonify({"error": f"An error occurred while generating the report: {e}"}), 500
+    # If an error occurred, return the error message.
+    if report_status and report_status['status'] == "error":
+        return jsonify({"status": "error", "error": report_status['error']}), 500
 
-# if __name__ == '__main__':
-#     app.run(debug=True, host='127.0.0.1', port=5000)
+    # If the report_id is in the session but not in the store, something went wrong.
+    return jsonify({"status": "error", "error": "Report not found or generation failed."}), 404
+
+if __name__ == '__main__':
+    app.run(debug=True, host='127.0.0.1', port=5000)

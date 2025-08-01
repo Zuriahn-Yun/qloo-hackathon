@@ -23,36 +23,18 @@ def get_report():
         print("success!")
         return send_file(
             filepath,
-            as_attachment=False,
+            as_attachment=False, # True: sends a download link. False: Displays content in browser
             download_name="marketing_report",
             mimetype='text/plain'
         )
     return jsonify({"error": "File not found"}), 404
 
+
+# API ideas
+
+# user submits query for all company reports -> get request for all reports
+# 
 # add sales data is a post request into backend DB
-
-
-# # Register the API blueprint
-
-# @app.route('/')
-# def home():
-#     return jsonify({
-#         "message": "Welcome to the Event Planning API",
-#         "endpoints": {
-#             "process_input": "POST /process_input - Process user input for event planning"
-#         }
-#     })
-
-# # predcondition: user has already selected a location, interest, time, and date
-# @app.route('/handle_preferences', methods=['POST'])
-# def handle_preferences():
-#     data = request.json
-#     if not data:
-#         return jsonify({"error": "No data provided"}), 400
-#     stringified_json = json.dumps(data)
-#     # call agent to handle preferences
-#     response = run_agent(stringified_json)
-#     return jsonify(response)
 
 
 if __name__ == '__main__':

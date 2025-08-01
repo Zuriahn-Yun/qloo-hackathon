@@ -4,7 +4,7 @@ import json
 from agent import generate_report
 from dotenv import load_dotenv
 import os
-# from llama_api_client import LlamaAPIClient # Assuming this is not used for this example
+import traceback # Import the traceback module to print detailed error information
 
 load_dotenv()
 
@@ -12,8 +12,6 @@ app = Flask(__name__)
 
 # The CORS origin is now explicitly set to your local frontend's URL.
 # This is a more secure and reliable configuration than a wildcard.
-# The 502 Bad Gateway error suggests a problem with the server itself,
-# so let's ensure the CORS headers are set more explicitly.
 CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
 
 # The secret key is explicitly read from an environment variable.
@@ -80,16 +78,21 @@ def get_report_json():
 
     # Check if all data is present
     if not all([company_name, sales_data, user_query, timeframe]):
-        # This is where the 502 error is likely occurring, if `generate_report` is not working.
         return jsonify({"error": "Please submit all data first via POST to /submit_report_data"}), 400
     
     # Pass all the stored data as arguments to your generate_report function.
-    report = generate_report(company_name, sales_data, user_query, timeframe)
-    
-    if report:
-        return jsonify({"report_text": report}), 200
-    
-    return jsonify({"error": "Report not found"}), 404
+    try:
+        report = generate_report(company_name, sales_data, user_query, timeframe)
+        if report:
+            return jsonify({"report_text": report}), 200
+        else:
+            return jsonify({"error": "Report not found"}), 404
+    except Exception as e:
+        # Catch any exception and return a specific error message.
+        # This will prevent the 502 Bad Gateway and give us more information.
+        print(f"Error in generate_report: {e}")
+        traceback.print_exc()
+        return jsonify({"error": f"An error occurred while generating the report: {e}"}), 500
 
 # if __name__ == '__main__':
 #     app.run(debug=True, host='127.0.0.1', port=5000)

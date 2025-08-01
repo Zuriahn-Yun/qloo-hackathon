@@ -312,7 +312,7 @@ You can call multiple tools. Be thorough - gather all relevant data for brands, 
         return report_text
 
 # Usage examples
-def main():
+def generate_report():
     agent = MarketingReportAgent()
     
     print("=== Marketing Report Agent Demo ===\n")
@@ -347,5 +347,5 @@ def main():
     nike_data = agent.get_data_about("nike")
     print(f"\nNike Data Available: {list(nike_data['found_data'].keys())}")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

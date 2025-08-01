@@ -9,11 +9,9 @@ from llama_api_client import LlamaAPIClient
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
+CORS(app, origins=['*'], supports_credentials=True)
 
-app.secret_key = os.urandom(24)
-
-
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 
 @app.route('/submit_report_data', methods=['POST'])
 def submit_report_data():
@@ -123,5 +121,7 @@ def api_docs():
     return jsonify(docs)
 
 
-
+if __name__ == '__main__':
+    app.run(debug=True, host='127.0.0.1', port=5000)
+    
     

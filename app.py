@@ -9,9 +9,22 @@ from llama_api_client import LlamaAPIClient
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
 
-app.secret_key = 'SECRET_KEY'
+# Configure CORS with proper credentials support
+CORS(app, 
+     origins=['http://127.0.0.1:5500', 'https://your-frontend-domain.com'], 
+     supports_credentials=True,
+     allow_headers=['Content-Type'],
+     methods=['GET', 'POST', 'OPTIONS'])
+
+# Session configuration for production
+app.secret_key = os.getenv('SECRET_KEY', os.urandom(24))
+app.config.update(
+    SESSION_COOKIE_SECURE=True,  # Only send cookies over HTTPS
+    SESSION_COOKIE_HTTPONLY=True,  # Prevent XSS attacks
+    SESSION_COOKIE_SAMESITE='None',  # Allow cross-site requests with credentials
+    PERMANENT_SESSION_LIFETIME=1800,  # 30 minutes
+)
 
 @app.route('/submit_report_data', methods=['POST'])
 def submit_report_data():
@@ -39,11 +52,10 @@ def submit_report_data():
     session['sales_data'] = sales_data
     session['user_query'] = user_query
     session['timeframe'] = timeframe
+    session.permanent = True  # Make session permanent
 
-    # print(session['company'])
-    # print(session['sales_data'])
-    # print(session['user_query'])
-    # print(session['timeframe'])
+    print(f"Session ID: {session.get('_permanent', 'No session')}")
+    print(f"Stored data - Company: {session.get('company')}")
 
     return jsonify({"message": "Company, sales data, query, and timeframe saved successfully."}), 200
 
@@ -53,20 +65,26 @@ def get_report_json():
     """
     Retrieves the data from the session and uses it to generate the report.
     """
+    print(f"Session ID in GET: {session.get('_permanent', 'No session')}")
+    print(f"Session contents: {dict(session)}")
+    
     # Retrieve all required data from the session.
     company_name = session.get('company')
     sales_data = session.get('sales_data')
     user_query = session.get('user_query')
     timeframe = session.get('timeframe')
 
-    # print(session['company'])
-    # print(session['sales_data'])
-    # print(session['user_query'])
-    # print(session['timeframe'])
-
     # Check if all data is present
     if not all([company_name, sales_data, user_query, timeframe]):
-        return jsonify({"error": "Please submit all data first via POST to /submit_report_data"}), 400
+        return jsonify({
+            "error": "Please submit all data first via POST to /submit_report_data",
+            "session_data": {
+                "company": bool(company_name),
+                "sales_data": bool(sales_data),
+                "user_query": bool(user_query),
+                "timeframe": bool(timeframe)
+            }
+        }), 400
     
     # Pass all the stored data as arguments to your generate_report function.
     report = generate_report(company_name, sales_data, user_query, timeframe)
@@ -75,14 +93,6 @@ def get_report_json():
         return jsonify({"report_text": report}), 200
     
     return jsonify({"error": "Report not found"}), 404
-
-
-# API ideas
-
-# user submits query for all company reports -> get request for all reports
-# 
-# add sales data is a post request into backend DB
-
 
 
 @app.route('/docs', methods=['GET'])
@@ -123,5 +133,3 @@ def api_docs():
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1', port=5000)
-    
-    

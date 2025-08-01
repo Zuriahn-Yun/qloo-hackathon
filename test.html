@@ -8,7 +8,7 @@
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
         .gradient-text {
-            background: linear-gradient(to right, #2563eb, #1e40af);
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -25,27 +25,24 @@
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 via-white to-slate-50">
-    <!-- Toast Notification -->
+<body class="bg-gray-900 text-gray-100">
     <div id="toast" class="fixed top-4 right-4 z-50 hidden">
-        <div class="bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm">
+        <div class="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-4 max-w-sm">
             <div class="flex items-center gap-3">
                 <div id="toast-icon" class="w-5 h-5"></div>
                 <div>
-                    <div id="toast-title" class="font-semibold text-gray-900"></div>
-                    <div id="toast-description" class="text-sm text-gray-600"></div>
+                    <div id="toast-title" class="font-semibold text-white"></div>
+                    <div id="toast-description" class="text-sm text-gray-400"></div>
                 </div>
-                <button onclick="hideToast()" class="ml-auto text-gray-400 hover:text-gray-600">
+                <button onclick="hideToast()" class="ml-auto text-gray-400 hover:text-gray-200">
                     <i data-lucide="x" class="w-4 h-4"></i>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Main Application -->
     <div id="main-app">
-        <!-- Header -->
-        <div class="border-b border-blue-100 bg-white/80 backdrop-blur-sm sticky top-0 z-10">
+        <div class="border-b border-gray-700 bg-gray-900/80 backdrop-blur-sm sticky top-0 z-10">
             <div class="container mx-auto px-6 py-4">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-4">
@@ -53,39 +50,34 @@
                             <i data-lucide="bar-chart-3" class="h-8 w-8 text-white"></i>
                         </div>
                         <div>
-                            <h1 class="text-2xl font-bold text-gray-900">Sales Report Generator</h1>
-                            <p class="text-sm text-gray-600">Hackathon Project - Retail Analytics Demo</p>
+                            <h1 class="text-2xl font-bold text-white">Sales Report Generator</h1>
+                            <p class="text-sm text-gray-400">Hackathon Project - Retail Analytics Demo</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-3">
-                        <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-orange-50 text-orange-700 border-orange-200">
-                            <i data-lucide="code" class="w-3 h-3 mr-2"></i>
-                            Hackathon Build
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Hero Section -->
         <div class="container mx-auto px-6 py-16">
             <div class="text-center max-w-4xl mx-auto mb-16">
-                <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-8">
+                <div class="inline-flex items-center gap-2 bg-blue-900 text-blue-300 px-4 py-2 rounded-full text-sm font-medium mb-8">
                     <i data-lucide="lightbulb" class="h-4 w-4"></i>
                     Built for Learning & Demo Purposes
                 </div>
-                <h2 class="text-5xl font-bold text-gray-900 mb-6">
+                <h2 class="text-5xl font-bold text-white mb-6">
                     Generate Mock
                     <span class="block gradient-text">Sales Analytics Reports</span>
                 </h2>
-                <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
                     A hackathon project demonstrating how to collect retail data and generate realistic-looking sales reports with mock analytics and insights.
                 </p>
             </div>
 
             <div class="max-w-4xl mx-auto">
-                <!-- Main Form Card -->
-                <div class="rounded-lg shadow-2xl border-0 bg-white/90 backdrop-blur-sm overflow-hidden">
+                <div class="rounded-lg shadow-2xl border-0 bg-gray-800/90 backdrop-blur-sm overflow-hidden">
                     <div class="bg-gradient-to-r from-blue-600 to-blue-700 p-6 text-white">
                         <div class="flex items-center gap-3 mb-2">
                             <i data-lucide="bar-chart-3" class="h-6 w-6"></i>
@@ -96,12 +88,11 @@
                     
                     <div class="p-8">
                         <form id="sales-form" class="space-y-8">
-                            <!-- Primary Data Fields -->
                             <div class="space-y-6">
                                 <div class="grid gap-6 md:grid-cols-2">
                                     <div class="space-y-3">
                                         <label for="location" class="text-base font-semibold flex items-center gap-2">
-                                            <i data-lucide="map-pin" class="h-5 w-5 text-blue-500"></i>
+                                            <i data-lucide="map-pin" class="h-5 w-5 text-blue-400"></i>
                                             Location
                                         </label>
                                         <input
@@ -109,14 +100,14 @@
                                             name="location"
                                             placeholder="e.g., New York, Store #123"
                                             required
-                                            class="flex h-12 w-full rounded-md border-2 border-gray-200 bg-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
+                                            class="flex h-12 w-full rounded-md border-2 border-gray-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
                                         />
-                                        <p class="text-sm text-gray-500">Store location or region</p>
+                                        <p class="text-sm text-gray-400">Store location or region</p>
                                     </div>
 
                                     <div class="space-y-3">
                                         <label for="brand" class="text-base font-semibold flex items-center gap-2">
-                                            <i data-lucide="building-2" class="h-5 w-5 text-blue-500"></i>
+                                            <i data-lucide="building-2" class="h-5 w-5 text-blue-400"></i>
                                             Brand
                                         </label>
                                         <input
@@ -124,15 +115,15 @@
                                             name="brand"
                                             placeholder="e.g., Samsung, Apple, Nike"
                                             required
-                                            class="flex h-12 w-full rounded-md border-2 border-gray-200 bg-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
+                                            class="flex h-12 w-full rounded-md border-2 border-gray-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
                                         />
-                                        <p class="text-sm text-gray-500">Product brand name</p>
+                                        <p class="text-sm text-gray-400">Product brand name</p>
                                     </div>
                                 </div>
 
                                 <div class="space-y-3">
                                     <label for="product" class="text-base font-semibold flex items-center gap-2">
-                                        <i data-lucide="package" class="h-5 w-5 text-blue-500"></i>
+                                        <i data-lucide="package" class="h-5 w-5 text-blue-400"></i>
                                         Product
                                     </label>
                                     <input
@@ -140,15 +131,15 @@
                                         name="product"
                                         placeholder="e.g., iPhone 15, Galaxy S24, Air Force 1"
                                         required
-                                        class="flex h-12 w-full rounded-md border-2 border-gray-200 bg-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
+                                        class="flex h-12 w-full rounded-md border-2 border-gray-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
                                     />
-                                    <p class="text-sm text-gray-500">Specific product name</p>
+                                    <p class="text-sm text-gray-400">Specific product name</p>
                                 </div>
 
                                 <div class="grid gap-6 md:grid-cols-2">
                                     <div class="space-y-3">
                                         <label for="units" class="text-base font-semibold flex items-center gap-2">
-                                            <i data-lucide="package" class="h-5 w-5 text-blue-500"></i>
+                                            <i data-lucide="package" class="h-5 w-5 text-blue-400"></i>
                                             Units Sold
                                         </label>
                                         <input
@@ -158,14 +149,14 @@
                                             placeholder="e.g., 1250"
                                             required
                                             min="0"
-                                            class="flex h-12 w-full rounded-md border-2 border-gray-200 bg-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
+                                            class="flex h-12 w-full rounded-md border-2 border-gray-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
                                         />
-                                        <p class="text-sm text-gray-500">Number of units sold</p>
+                                        <p class="text-sm text-gray-400">Number of units sold</p>
                                     </div>
 
                                     <div class="space-y-3">
                                         <label for="revenue" class="text-base font-semibold flex items-center gap-2">
-                                            <i data-lucide="dollar-sign" class="h-5 w-5 text-blue-500"></i>
+                                            <i data-lucide="dollar-sign" class="h-5 w-5 text-blue-400"></i>
                                             Revenue
                                         </label>
                                         <input
@@ -176,23 +167,22 @@
                                             required
                                             min="0"
                                             step="0.01"
-                                            class="flex h-12 w-full rounded-md border-2 border-gray-200 bg-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
+                                            class="flex h-12 w-full rounded-md border-2 border-gray-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
                                         />
-                                        <p class="text-sm text-gray-500">Total revenue amount</p>
+                                        <p class="text-sm text-gray-400">Total revenue amount</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Optional Adjustments -->
-                            <div class="border-t pt-8">
+                            <div class="border-t border-gray-700 pt-8">
                                 <div class="mb-6">
-                                    <h4 class="text-lg font-semibold text-gray-900 mb-2">Optional Adjustments</h4>
-                                    <p class="text-gray-600">Add increase/decrease values for demo calculations</p>
+                                    <h4 class="text-lg font-semibold text-white mb-2">Optional Adjustments</h4>
+                                    <p class="text-gray-400">Add increase/decrease values for demo calculations</p>
                                 </div>
                                 
                                 <div class="grid gap-6 md:grid-cols-2">
                                     <div class="space-y-3">
-                                        <label for="increase" class="text-base font-semibold text-green-700 flex items-center gap-2">
+                                        <label for="increase" class="text-base font-semibold text-green-400 flex items-center gap-2">
                                             <i data-lucide="trending-up" class="h-5 w-5"></i>
                                             Increase
                                         </label>
@@ -203,13 +193,13 @@
                                             placeholder="0"
                                             min="0"
                                             step="0.01"
-                                            class="flex h-12 w-full rounded-md border-2 border-green-200 bg-white px-3 py-2 text-base focus:border-green-500 focus:outline-none"
+                                            class="flex h-12 w-full rounded-md border-2 border-green-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-green-500 focus:outline-none"
                                         />
-                                        <p class="text-sm text-green-600">Increase amount (optional)</p>
+                                        <p class="text-sm text-green-400">Increase amount (optional)</p>
                                     </div>
                                     
                                     <div class="space-y-3">
-                                        <label for="decrease" class="text-base font-semibold text-red-700 flex items-center gap-2">
+                                        <label for="decrease" class="text-base font-semibold text-red-400 flex items-center gap-2">
                                             <i data-lucide="trending-down" class="h-5 w-5"></i>
                                             Decrease
                                         </label>
@@ -220,9 +210,9 @@
                                             placeholder="0"
                                             min="0"
                                             step="0.01"
-                                            class="flex h-12 w-full rounded-md border-2 border-red-200 bg-white px-3 py-2 text-base focus:border-red-500 focus:outline-none"
+                                            class="flex h-12 w-full rounded-md border-2 border-red-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-red-500 focus:outline-none"
                                         />
-                                        <p class="text-sm text-red-600">Decrease amount (optional)</p>
+                                        <p class="text-sm text-red-400">Decrease amount (optional)</p>
                                     </div>
                                 </div>
                             </div>
@@ -238,56 +228,54 @@
                     </div>
                 </div>
 
-                <!-- Feature Cards -->
                 <div class="grid gap-6 md:grid-cols-3 mt-16">
-                    <div class="rounded-lg border shadow-sm border-blue-200 bg-blue-50/50 card-hover">
+                    <div class="rounded-lg border shadow-sm border-blue-900 bg-blue-900/50 card-hover">
                         <div class="p-6">
                             <div class="flex items-center gap-3 mb-4">
-                                <div class="p-3 bg-blue-100 rounded-lg">
-                                    <i data-lucide="bar-chart-3" class="h-6 w-6 text-blue-600"></i>
+                                <div class="p-3 bg-blue-800 rounded-lg">
+                                    <i data-lucide="bar-chart-3" class="h-6 w-6 text-blue-400"></i>
                                 </div>
-                                <h3 class="font-bold text-blue-900">Mock Analytics</h3>
+                                <h3 class="font-bold text-blue-200">Mock Analytics</h3>
                             </div>
-                            <p class="text-sm text-blue-700">
+                            <p class="text-sm text-blue-300">
                                 Generates realistic-looking sales data and performance metrics for demonstration.
                             </p>
                         </div>
                     </div>
 
-                    <div class="rounded-lg border shadow-sm border-green-200 bg-green-50/50 card-hover">
+                    <div class="rounded-lg border shadow-sm border-green-900 bg-green-900/50 card-hover">
                         <div class="p-6">
                             <div class="flex items-center gap-3 mb-4">
-                                <div class="p-3 bg-green-100 rounded-lg">
-                                    <i data-lucide="zap" class="h-6 w-6 text-green-600"></i>
+                                <div class="p-3 bg-green-800 rounded-lg">
+                                    <i data-lucide="zap" class="h-6 w-6 text-green-400"></i>
                                 </div>
-                                <h3 class="font-bold text-green-900">Instant Results</h3>
+                                <h3 class="font-bold text-green-200">Instant Results</h3>
                             </div>
-                            <p class="text-sm text-green-700">
+                            <p class="text-sm text-green-300">
                                 Quick form processing with immediate mock report generation.
                             </p>
                         </div>
                     </div>
 
-                    <div class="rounded-lg border shadow-sm border-purple-200 bg-purple-50/50 card-hover">
+                    <div class="rounded-lg border shadow-sm border-purple-900 bg-purple-900/50 card-hover">
                         <div class="p-6">
                             <div class="flex items-center gap-3 mb-4">
-                                <div class="p-3 bg-purple-100 rounded-lg">
-                                    <i data-lucide="code" class="h-6 w-6 text-purple-600"></i>
+                                <div class="p-3 bg-purple-800 rounded-lg">
+                                    <i data-lucide="code" class="h-6 w-6 text-purple-400"></i>
                                 </div>
-                                <h3 class="font-bold text-purple-900">Open Source</h3>
+                                <h3 class="font-bold text-purple-200">Open Source</h3>
                             </div>
-                            <p class="text-sm text-purple-700">
+                            <p class="text-sm text-purple-300">
                                 Built as a learning project with clean, readable code structure.
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- About Section -->
-                <div class="text-center mt-16 py-12 border-t border-gray-200">
-                    <div class="bg-gray-50 rounded-lg p-6 max-w-2xl mx-auto">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">About This Project</h3>
-                        <p class="text-gray-600 mb-4">
+                <div class="text-center mt-16 py-12 border-t border-gray-700">
+                    <div class="bg-gray-800 rounded-lg p-6 max-w-2xl mx-auto">
+                        <h3 class="text-lg font-semibold text-white mb-2">About This Project</h3>
+                        <p class="text-gray-400 mb-4">
                             This is a hackathon demo showcasing a sales report generator. It collects basic retail data 
                             and generates mock analytics reports with realistic-looking charts and insights.
                         </p>
@@ -300,111 +288,97 @@
         </div>
     </div>
 
-    <!-- Report Display -->
-    <div id="report-display" class="report-display min-h-screen bg-gray-50 p-6">
+    <div id="report-display" class="report-display min-h-screen bg-gray-950 p-6">
         <div class="max-w-7xl mx-auto">
             <div class="space-y-6">
-                <!-- Report Header -->
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-3xl font-bold text-gray-900">Sales Analytics Report</h2>
-                        <p class="text-gray-600 mt-1" id="report-date">Generated on</p>
+                        <h2 class="text-3xl font-bold text-white">Sales Analytics Report</h2>
+                        <p class="text-gray-400 mt-1" id="report-date">Generated on</p>
                     </div>
                     <div class="flex gap-2">
-                        <button class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50">
+                        <button class="inline-flex items-center px-3 py-2 border border-gray-700 rounded-md text-sm bg-gray-800 hover:bg-gray-700">
                             <i data-lucide="download" class="h-4 w-4 mr-2"></i>
                             Export
                         </button>
-                        <button onclick="showMainApp()" class="inline-flex items-center px-3 py-2 border border-gray-300 rounded-md text-sm bg-white hover:bg-gray-50">
+                        <button onclick="showMainApp()" class="inline-flex items-center px-3 py-2 border border-gray-700 rounded-md text-sm bg-gray-800 hover:bg-gray-700">
                             Close
                         </button>
                     </div>
                 </div>
 
-                <!-- Status Badge -->
                 <div class="flex items-center gap-2">
-                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-green-50 text-green-700 border-green-200">
+                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold bg-green-900 text-green-300 border-green-700">
                         <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                         Report Generated Successfully
                     </div>
-                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-gray-300" id="report-id">
+                    <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold border-gray-700 bg-gray-800" id="report-id">
                         ID: 
                     </div>
                 </div>
 
-                <!-- Key Metrics Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4" id="metrics-cards">
-                    <!-- Populated by JavaScript -->
-                </div>
+                    </div>
 
-                <!-- Product Performance Breakdown -->
-                <div class="rounded-lg border bg-white shadow-sm">
-                    <div class="p-6 border-b">
+                <div class="rounded-lg border bg-gray-800 shadow-sm border-gray-700">
+                    <div class="p-6 border-b border-gray-700">
                         <div class="flex items-center gap-2">
-                            <i data-lucide="bar-chart-3" class="h-5 w-5"></i>
-                            <h3 class="text-xl font-semibold">Weekly Sales Breakdown</h3>
+                            <i data-lucide="bar-chart-3" class="h-5 w-5 text-gray-200"></i>
+                            <h3 class="text-xl font-semibold text-white">Weekly Sales Breakdown</h3>
                         </div>
-                        <p class="text-gray-600 mt-1" id="breakdown-description">Product-level performance data</p>
+                        <p class="text-gray-400 mt-1" id="breakdown-description">Product-level performance data</p>
                     </div>
                     <div class="p-6">
                         <div class="space-y-4" id="product-breakdown">
-                            <!-- Populated by JavaScript -->
-                        </div>
+                            </div>
                     </div>
                 </div>
 
-                <!-- Report Summary & Trends -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Report Summary -->
-                    <div class="lg:col-span-2 rounded-lg border bg-white shadow-sm">
-                        <div class="p-6 border-b">
+                    <div class="lg:col-span-2 rounded-lg border bg-gray-800 shadow-sm border-gray-700">
+                        <div class="p-6 border-b border-gray-700">
                             <div class="flex items-center gap-2">
-                                <i data-lucide="building-2" class="h-5 w-5"></i>
-                                <h3 class="text-xl font-semibold">Report Summary</h3>
+                                <i data-lucide="building-2" class="h-5 w-5 text-gray-200"></i>
+                                <h3 class="text-xl font-semibold text-white">Report Summary</h3>
                             </div>
-                            <p class="text-gray-600 mt-1">Analysis details and adjustments</p>
+                            <p class="text-gray-400 mt-1">Analysis details and adjustments</p>
                         </div>
                         <div class="p-6">
                             <div class="grid grid-cols-2 gap-4" id="report-summary">
-                                <!-- Populated by JavaScript -->
-                            </div>
+                                </div>
                         </div>
                     </div>
 
-                    <!-- Market Trends -->
-                    <div class="rounded-lg border bg-white shadow-sm">
-                        <div class="p-6 border-b">
+                    <div class="rounded-lg border bg-gray-800 shadow-sm border-gray-700">
+                        <div class="p-6 border-b border-gray-700">
                             <div class="flex items-center gap-2">
-                                <i data-lucide="trending-up" class="h-5 w-5 text-blue-500"></i>
-                                <h3 class="text-xl font-semibold">Market Trends</h3>
+                                <i data-lucide="trending-up" class="h-5 w-5 text-blue-400"></i>
+                                <h3 class="text-xl font-semibold text-white">Market Trends</h3>
                             </div>
                         </div>
                         <div class="p-6">
                             <div class="space-y-4">
-                                <div class="bg-blue-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold text-blue-900 mb-2">Key Insights</h4>
-                                    <p class="text-sm text-blue-800" id="trends-text"></p>
+                                <div class="bg-gray-900 p-4 rounded-lg">
+                                    <h4 class="font-semibold text-white mb-2">Key Insights</h4>
+                                    <p class="text-sm text-gray-300" id="trends-text"></p>
                                 </div>
                                 
                                 <div class="space-y-3" id="trends-metrics">
-                                    <!-- Populated by JavaScript -->
-                                </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Raw Data -->
-                <div class="rounded-lg border bg-white shadow-sm">
-                    <div class="p-6 border-b">
-                        <h3 class="text-xl font-semibold">Raw Sales Data</h3>
-                        <p class="text-gray-600 mt-1">Structured data format as requested</p>
+                <div class="rounded-lg border bg-gray-800 shadow-sm border-gray-700">
+                    <div class="p-6 border-b border-gray-700">
+                        <h3 class="text-xl font-semibold text-white">Raw Sales Data</h3>
+                        <p class="text-gray-400 mt-1">Structured data format as requested</p>
                     </div>
                     <div class="p-6">
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <pre class="text-sm overflow-x-auto" id="raw-data">
-                                <!-- Populated by JavaScript -->
-                            </pre>
+                        <div class="bg-gray-900 p-4 rounded-lg">
+                            <pre class="text-sm overflow-x-auto text-gray-200" id="raw-data">
+                                </pre>
                         </div>
                     </div>
                 </div>
@@ -571,42 +545,40 @@
 
             // Generate metrics cards
             const metricsHtml = `
-                <div class="border-l-4 border-l-blue-500 bg-white rounded-lg p-4 shadow-sm">
+                <div class="border-l-4 border-l-blue-500 bg-gray-800 rounded-lg p-4 shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-600">Total Revenue</p>
-                            <p class="text-2xl font-bold">$${totalRevenue.toLocaleString()}</p>
+                            <p class="text-sm font-medium text-gray-400">Total Revenue</p>
+                            <p class="text-2xl font-bold text-white">$${totalRevenue.toLocaleString()}</p>
                         </div>
                         <i data-lucide="dollar-sign" class="h-8 w-8 text-blue-500"></i>
                     </div>
                 </div>
-                <div class="border-l-4 border-l-green-500 bg-white rounded-lg p-4 shadow-sm">
+                <div class="border-l-4 border-l-green-500 bg-gray-800 rounded-lg p-4 shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-600">Total Units</p>
-                            <p class="text-2xl font-bold">${totalUnits.toLocaleString()}</p>
+                            <p class="text-sm font-medium text-gray-400">Total Units Sold</p>
+                            <p class="text-2xl font-bold text-white">${totalUnits.toLocaleString()}</p>
                         </div>
                         <i data-lucide="package" class="h-8 w-8 text-green-500"></i>
                     </div>
                 </div>
-                <div class="border-l-4 border-l-purple-500 bg-white rounded-lg p-4 shadow-sm">
+                <div class="border-l-4 border-l-orange-500 bg-gray-800 rounded-lg p-4 shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-600">Avg Price</p>
-                            <p class="text-2xl font-bold">$${avgPrice.toFixed(2)}</p>
+                            <p class="text-sm font-medium text-gray-400">Avg. Unit Price</p>
+                            <p class="text-2xl font-bold text-white">$${avgPrice.toFixed(2)}</p>
                         </div>
-                        <i data-lucide="bar-chart-3" class="h-8 w-8 text-purple-500"></i>
+                        <i data-lucide="tags" class="h-8 w-8 text-orange-500"></i>
                     </div>
                 </div>
-                <div class="border-l-4 border-l-orange-500 bg-white rounded-lg p-4 shadow-sm">
+                <div class="border-l-4 border-l-purple-500 bg-gray-800 rounded-lg p-4 shadow-sm">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-600">Avg Change</p>
-                            <p class="text-2xl font-bold ${avgChange >= 0 ? 'text-green-600' : 'text-red-600'}">
-                                ${avgChange >= 0 ? '+' : ''}${avgChange.toFixed(1)}%
-                            </p>
+                            <p class="text-sm font-medium text-gray-400">Weekly Change</p>
+                            <p class="text-2xl font-bold text-white">${avgChange.toFixed(2)}%</p>
                         </div>
-                        <i data-lucide="${avgChange >= 0 ? 'trending-up' : 'trending-down'}" class="h-8 w-8 text-orange-500"></i>
+                        <i data-lucide="${avgChange >= 0 ? 'trending-up' : 'trending-down'}" class="h-8 w-8 ${avgChange >= 0 ? 'text-purple-500' : 'text-red-500'}"></i>
                     </div>
                 </div>
             `;
@@ -614,32 +586,21 @@
 
             // Generate product breakdown
             const breakdownHtml = salesEntries.map(([productName, productData]) => {
-                const change = parseFloat(productData.change.replace('%', ''));
-                const isPositive = change >= 0;
-                
+                const changeClass = parseFloat(productData.change) >= 0 ? 'text-green-500' : 'text-red-500';
                 return `
-                    <div class="border rounded-lg p-4 bg-gray-50">
-                        <div class="flex items-center justify-between mb-3">
-                            <h4 class="font-semibold text-lg capitalize">
-                                ${productName.replace(/_/g, ' ')}
-                            </h4>
-                            <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${isPositive ? 'bg-green-100 text-green-800 border-green-200' : 'bg-red-100 text-red-800 border-red-200'}">
-                                ${productData.change}
+                    <div class="flex items-center justify-between p-4 bg-gray-900 rounded-md">
+                        <div class="flex items-center gap-3">
+                            <i data-lucide="package" class="h-5 w-5 text-gray-400"></i>
+                            <div>
+                                <p class="font-semibold text-white">${productName.replace(/_/g, ' ')}</p>
+                                <p class="text-sm text-gray-400">Units: ${productData.units.toLocaleString()}</p>
                             </div>
                         </div>
-                        
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <p class="text-sm text-gray-600">Units Sold</p>
-                                <p class="text-xl font-bold">${productData.units.toLocaleString()}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Revenue</p>
-                                <p class="text-xl font-bold">$${productData.revenue.toLocaleString()}</p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-600">Unit Price</p>
-                                <p class="text-xl font-bold">$${(productData.revenue / productData.units).toFixed(2)}</p>
+                        <div class="text-right">
+                            <p class="font-bold text-lg text-white">$${productData.revenue.toLocaleString()}</p>
+                            <div class="flex items-center justify-end text-sm ${changeClass}">
+                                <i data-lucide="${parseFloat(productData.change) >= 0 ? 'trending-up' : 'trending-down'}" class="h-4 w-4 mr-1"></i>
+                                <span>${productData.change}</span>
                             </div>
                         </div>
                     </div>
@@ -647,101 +608,87 @@
             }).join('');
             document.getElementById('product-breakdown').innerHTML = breakdownHtml;
 
-            // Update report summary
+            // Generate report summary
             const summaryHtml = `
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2 text-sm text-gray-600">
-                        <i data-lucide="map-pin" class="h-4 w-4"></i>
-                        Location
-                    </div>
-                    <p class="font-semibold">${data.summary.location}</p>
+                <div>
+                    <p class="text-sm font-medium text-gray-400 mb-1">Brand</p>
+                    <p class="text-white font-semibold">${data.summary.brand}</p>
                 </div>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2 text-sm text-gray-600">
-                        <i data-lucide="building-2" class="h-4 w-4"></i>
-                        Brand
-                    </div>
-                    <p class="font-semibold">${data.summary.brand}</p>
+                <div>
+                    <p class="text-sm font-medium text-gray-400 mb-1">Product</p>
+                    <p class="text-white font-semibold">${data.summary.product}</p>
                 </div>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2 text-sm text-gray-600">
-                        <i data-lucide="package" class="h-4 w-4"></i>
-                        Product
-                    </div>
-                    <p class="font-semibold">${data.summary.product}</p>
+                <div>
+                    <p class="text-sm font-medium text-gray-400 mb-1">Location</p>
+                    <p class="text-white font-semibold">${data.summary.location}</p>
                 </div>
-                <div class="space-y-2">
-                    <div class="flex items-center gap-2 text-sm text-gray-600">
-                        <i data-lucide="calendar" class="h-4 w-4"></i>
-                        Report Date
-                    </div>
-                    <p class="font-semibold">${new Date(data.timestamp).toLocaleDateString()}</p>
+                <div>
+                    <p class="text-sm font-medium text-gray-400 mb-1">Net Adjustment</p>
+                    <p class="text-white font-semibold">${data.summary.netAdjustment.toLocaleString()}</p>
                 </div>
             `;
             document.getElementById('report-summary').innerHTML = summaryHtml;
 
-            // Update trends
+            // Generate trends
             document.getElementById('trends-text').textContent = data.sales_data.trends;
-            
-            const bestPerformer = salesEntries.reduce((best, [name, data]) => 
-                parseFloat(data.change.replace('%', '')) > parseFloat(best[1].change.replace('%', '')) ? [name, data] : best
-            )[0].replace(/_/g, ' ');
-
-            const trendsMetricsHtml = `
-                <div class="bg-gray-50 p-3 rounded-lg">
-                    <p class="text-xs text-gray-500 mb-1">Best Performer</p>
-                    <p class="font-semibold">${bestPerformer}</p>
+            document.getElementById('trends-metrics').innerHTML = `
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-400">Units Per Employee</span>
+                    <span class="font-semibold">${(totalUnits / 10).toFixed(1)}</span>
                 </div>
-                <div class="bg-gray-50 p-3 rounded-lg">
-                    <p class="text-xs text-gray-500 mb-1">Total Products</p>
-                    <p class="font-semibold">${salesEntries.length} variants</p>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-400">Customer Satisfaction</span>
+                    <div class="flex items-center gap-1">
+                        <i data-lucide="star" class="h-4 w-4 text-yellow-400 fill-yellow-400"></i>
+                        <span class="font-semibold">${(Math.random() * 0.5 + 4.5).toFixed(2)} / 5</span>
+                    </div>
                 </div>
-                <div class="bg-gray-50 p-3 rounded-lg">
-                    <p class="text-xs text-gray-500 mb-1">Report Status</p>
-                    <p class="font-semibold text-green-600">Complete</p>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-400">Marketing Spend</span>
+                    <span class="font-semibold text-gray-300">$${(totalRevenue * 0.05).toLocaleString()}</span>
                 </div>
             `;
-            document.getElementById('trends-metrics').innerHTML = trendsMetricsHtml;
 
-            // Update raw data
-            const rawDataObj = {
-                [`${data.summary.brand.toLowerCase()}_sales`]: data.sales_data
-            };
-            document.getElementById('raw-data').textContent = JSON.stringify(rawDataObj, null, 2);
+            // Display raw data
+            document.getElementById('raw-data').textContent = JSON.stringify(data, null, 2);
+
+            // Create new icons
+            lucide.createIcons();
 
             // Show report and hide main app
-            document.getElementById('main-app').style.display = 'none';
+            document.getElementById('main-app').classList.add('hidden');
             document.getElementById('report-display').classList.add('active');
-
-            // Reinitialize Lucide icons
-            lucide.createIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Navigation functions
         function showMainApp() {
+            document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('report-display').classList.remove('active');
-            document.getElementById('main-app').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Toast notification functions
-        function showToast(title, description, type = 'success') {
+        function showToast(title, description, type) {
             const toast = document.getElementById('toast');
-            const icon = document.getElementById('toast-icon');
-            const titleEl = document.getElementById('toast-title');
-            const descEl = document.getElementById('toast-description');
+            const toastTitle = document.getElementById('toast-title');
+            const toastDescription = document.getElementById('toast-description');
+            const toastIcon = document.getElementById('toast-icon');
 
-            titleEl.textContent = title;
-            descEl.textContent = description;
-
+            let iconHtml = '';
             if (type === 'success') {
-                icon.innerHTML = '<i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>';
-            } else {
-                icon.innerHTML = '<i data-lucide="x-circle" class="w-5 h-5 text-red-500"></i>';
+                iconHtml = '<i data-lucide="check-circle" class="w-5 h-5 text-green-500"></i>';
+            } else if (type === 'error') {
+                iconHtml = '<i data-lucide="x-circle" class="w-5 h-5 text-red-500"></i>';
+            } else if (type === 'info') {
+                iconHtml = '<i data-lucide="info" class="w-5 h-5 text-blue-500"></i>';
             }
 
-            toast.classList.remove('hidden');
+            toastIcon.innerHTML = iconHtml;
+            toastTitle.textContent = title;
+            toastDescription.textContent = description;
+            
             lucide.createIcons();
-
+            toast.classList.remove('hidden');
+            
             setTimeout(() => {
                 hideToast();
             }, 5000);
@@ -750,11 +697,6 @@
         function hideToast() {
             document.getElementById('toast').classList.add('hidden');
         }
-
-        // Initialize icons on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            lucide.createIcons();
-        });
     </script>
 </body>
 </html>

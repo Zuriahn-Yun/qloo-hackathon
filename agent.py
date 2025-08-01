@@ -303,49 +303,45 @@ You can call multiple tools. Be thorough - gather all relevant data for brands, 
         
         return results
     
-    def export_report(self, report_text, filename=None):
-        """Export plain text report to file"""
-        if filename:
-            with open(filename, 'w', encoding='utf-8') as f:
-                f.write(report_text)
-            return f"Report exported to {filename}"
-        return report_text
+    # def export_report(self, report_text, filename=None):
+    #     """Export plain text report to file"""
+    #     if filename:
+    #         with open(filename, 'w', encoding='utf-8') as f:
+    #             f.write(report_text)
+    #         return f"Report exported to {filename}"
+    #     return report_text
 
 # Usage examples
-def generate_report():
+def generate_report(company_name, sales_data, user_query, timeframe):
+
     agent = MarketingReportAgent()
     
     print("=== Marketing Report Agent Demo ===\n")
     
     # Add sales data for brands
-    nike_sales = {
-        "weekly_sales": {
-            "air_jordan": {"units": 1250, "revenue": 187500, "change": "+15%"},
-            "air_max": {"units": 890, "revenue": 89000, "change": "-5%"},
-            "running_shoes": {"units": 2100, "revenue": 168000, "change": "+22%"}
-        },
-        "trends": "Strong growth in running category, Jordan line maintaining premium pricing"
-    }
+    # FRONTEND INPUT user submits a report of their sales for the app to analyze and provide recommendations
+
+    # nike_sales = 
     
-    agent.add_sales_data("nike", nike_sales, "weekly")
+    # FRONTEND INPUT
+    agent.add_sales_data(company_name, sales_data, timeframe)
     
-    # Generate comprehensive plain text report
-    report = agent.generate_comprehensive_report(
-        "Analyze Nike's brand performance and market opportunities in Los Angeles with current sales data"
-    )
+
+    # FRONTEND INPUT Generate comprehensive plain text report. This will be a user query
+    report = agent.generate_comprehensive_report(user_query)
     
-    print("PLAIN TEXT BUSINESS REPORT:")
-    print("=" * 80)
-    print(report)
-    print("=" * 80)
+    # print("PLAIN TEXT BUSINESS REPORT:")
+    # print("=" * 80)
+    # print(report)
+    # print("=" * 80)
+    print("Report Generated")
     
-    # Export to file
-    export_result = agent.export_report(report, "marketing_analysis_report.txt")
-    print(f"\n{export_result}")
-    
-    # Retrieve specific brand data
+
+    # FRONTEND INPUT Retrieve specific brand data
     nike_data = agent.get_data_about("nike")
     print(f"\nNike Data Available: {list(nike_data['found_data'].keys())}")
+
+    return report
 
 # if __name__ == "__main__":
 #     main()

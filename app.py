@@ -122,5 +122,5 @@ def get_report_json():
     # If the report_id is in the session but not in the store, something went wrong.
     return jsonify({"status": "error", "error": "Report not found or generation failed."}), 404
 
-if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+# if __name__ == '__main__':
+#     app.run(debug=True, host='127.0.0.1', port=5000)

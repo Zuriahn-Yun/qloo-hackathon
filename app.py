@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 # Configure CORS with proper credentials support
 CORS(app, 
-     origins=['http://127.0.0.1:5500', 'https://your-frontend-domain.com'], 
+     origins=['http://127.0.0.1:5500', '*'], 
      supports_credentials=True,
      allow_headers=['Content-Type'],
      methods=['GET', 'POST', 'OPTIONS'])

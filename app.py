@@ -15,6 +15,41 @@ CORS(app)
 
 app.secret_key = os.urandom(24)
 
+@app.route('/docs', methods=['GET'])
+def api_docs():
+    """
+    Serves a simple JSON documentation for the API.
+    """
+    docs = {
+        "api_documentation": "Welcome to the Report Generator API!",
+        "endpoints": {
+            "/submit_report_data": {
+                "method": "POST",
+                "description": "Receives user input and saves it to the session. Must be called before /get_report.",
+                "request_body": {
+                    "company": "string (e.g., 'Acme Corp')",
+                    "sales_data": "JSON object (e.g., {'2023': 150000, '2024': 180000})",
+                    "user_query": "string (e.g., 'Analyze our sales performance')",
+                    "timeframe": "string (e.g., 'Q1 2024')"
+                },
+                "response": {
+                    "200 OK": {"message": "string"}
+                }
+            },
+            "/get_report": {
+                "method": "GET",
+                "description": "Generates a report based on the data submitted via /submit_report_data.",
+                "request_params": "None",
+                "response": {
+                    "200 OK": {"report_text": "string (the generated report)"},
+                    "400 Bad Request": {"error": "Please submit all data first via POST to /submit_report_data"},
+                    "404 Not Found": {"error": "Report not found"}
+                }
+            }
+        }
+    }
+    return jsonify(docs)
+
 @app.route('/submit_report_data', methods=['POST'])
 def submit_report_data():
     """

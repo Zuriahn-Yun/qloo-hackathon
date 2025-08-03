@@ -17,7 +17,7 @@ app = Flask(__name__)
 # You MUST replace the placeholder URL with your actual GitHub Pages URL.
 # The `origins` list can also contain multiple URLs, for example:
 # origins=['https://your-username.github.io/your-repo-name/', 'http://127.0.0.1:5500']
-CORS(app, origins=['http://127.0.0.1:5500'], supports_credentials=True)
+CORS(app, origins=['*'], supports_credentials=True)
 
 app.secret_key = os.environ.get('SECRET_KEY')
 

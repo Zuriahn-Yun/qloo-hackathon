@@ -7,6 +7,7 @@ import os
 import traceback
 import threading
 import uuid
+# from llama_api_client import LlamaAPIClient # Assuming this is not used for this example
 
 load_dotenv()
 
@@ -26,29 +27,29 @@ app.config.update(
 )
 
 # A simple in-memory store for reports and their status.
-# In a production environment, you would use a more persistent solution like Redis.
+# This will work correctly only if WEB_CONCURRENCY is set to 1.
 report_store = {}
 
-def generate_report_background(session_id, company_name, sales_data, user_query, timeframe):
+def generate_report_background(report_id, company_name, sales_data, user_query, timeframe):
     """
     A function to be run in a background thread to generate the report.
     It updates the global report_store with the result or an error message.
     """
     try:
         # Set the status to 'generating' so the frontend can poll.
-        report_store[session_id] = {"status": "generating"}
+        report_store[report_id] = {"status": "generating"}
         
         # This is the long-running call that would previously time out.
         report = generate_report(company_name, sales_data, user_query, timeframe)
         
         if report:
-            report_store[session_id] = {"status": "completed", "report_text": report}
+            report_store[report_id] = {"status": "completed", "report_text": report}
         else:
-            report_store[session_id] = {"status": "error", "error": "Report not found"}
+            report_store[report_id] = {"status": "error", "error": "Report not found"}
     except Exception as e:
         print(f"Error in background report generation: {e}")
         traceback.print_exc()
-        report_store[session_id] = {"status": "error", "error": f"An error occurred: {str(e)}"}
+        report_store[report_id] = {"status": "error", "error": f"An error occurred: {str(e)}"}
 
 @app.route('/submit_report_data', methods=['POST'])
 def submit_report_data():
@@ -69,28 +70,19 @@ def submit_report_data():
         return jsonify({"error": "Missing one or more required fields"}), 400
 
     # Assign a unique report ID to this session and store the data
-    session['report_id'] = str(uuid.uuid4())
-    session['company'] = company_name
-    session['sales_data'] = sales_data
-    session['user_query'] = user_query
-    session['timeframe'] = timeframe
-
-    print("POST request received. Session data stored:")
-    print("Company:", session.get('company'))
-    print("Sales Data:", session.get('sales_data'))
-    print("User Query:", session.get('user_query'))
-    print("Timeframe:", session.get('timeframe'))
-    print("Starting background report generation...")
+    report_id = str(uuid.uuid4())
+    session['report_id'] = report_id
+    
+    print("POST request received. Starting background report generation...")
 
     # Start the background task to generate the report.
-    # The session data is passed to the thread.
-    thread_args = (session['report_id'], company_name, sales_data, user_query, timeframe)
+    thread_args = (report_id, company_name, sales_data, user_query, timeframe)
     report_thread = threading.Thread(target=generate_report_background, args=thread_args)
     report_thread.daemon = True
     report_thread.start()
 
     # Immediately return a response to the client.
-    return jsonify({"message": "Data submitted. Report generation started.", "report_id": session['report_id']}), 200
+    return jsonify({"message": "Data submitted. Report generation started.", "report_id": report_id}), 200
 
 @app.route('/get_report', methods=['GET'])
 def get_report_json():
@@ -113,11 +105,14 @@ def get_report_json():
     
     # If the report is complete, return it.
     if report_status and report_status['status'] == "completed":
-        return jsonify({"status": "completed", "report_text": report_status['report_text']}), 200
+        # The report is completed, so we can clean up the store to prevent memory leaks.
+        report_data = report_store.pop(report_id, None)
+        return jsonify({"status": "completed", "report_text": report_data['report_text']}), 200
 
     # If an error occurred, return the error message.
     if report_status and report_status['status'] == "error":
-        return jsonify({"status": "error", "error": report_status['error']}), 500
+        error_data = report_store.pop(report_id, None)
+        return jsonify({"status": "error", "error": error_data['error']}), 500
 
     # If the report_id is in the session but not in the store, something went wrong.
     return jsonify({"status": "error", "error": "Report not found or generation failed."}), 404

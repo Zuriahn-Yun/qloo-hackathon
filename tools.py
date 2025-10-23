@@ -5,7 +5,6 @@
 import os
 import requests
 import json
-from llama import llama
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -55,11 +54,9 @@ def location_analysis(location):
 
     search_response = requests.get(search_url, headers=headers)
     
-    ## Pretty Print in JSON format 
+    ## Return the data directly - don't print
     data = search_response.json()
-    json_format = json.dumps(data,indent=2)
-    print(json_format)
-    return json_format
+    return data
 
 def extract_online_image_data(url):
     from llama_api_client import LlamaAPIClient
@@ -90,17 +87,14 @@ def extract_online_image_data(url):
     
     return response.completion_message.content.text
 def main():
-    
     """
     location_analysis -> retrieve QLOO data about a location
     brand_analysis -> retrieve QLOO data about a brand
     extract_online_image_data -> uses LLAMA for image analysis  
-    
     """
-    llama_api = llama()
-    
+    # Test the brand analysis
     brand_output = brand_analysis("nutella")
-    print(llama_api.brand_test(brand_output))
+    print(json.dumps(brand_output, indent=2))
     
 if __name__ == "__main__":
     main()

@@ -39,10 +39,18 @@ class MarketingReportAgent:
         }
     
     def add_sales_data(self, brand_name, sales_data, period="weekly"):
-        """Add sales data for a brand to enhance report analysis"""
+        """Add sales data for a brand to enhance report analysis - accepts any format"""
+        # Convert sales_data to text format for consistent storage
+        if isinstance(sales_data, (dict, list)):
+            data_text = json.dumps(sales_data, indent=2)
+        elif isinstance(sales_data, str):
+            data_text = sales_data
+        else:
+            data_text = str(sales_data)
+            
         self.collected_data["sales_data"][brand_name] = {
             "period": period,
-            "data_text": json.dumps(sales_data, indent=2) if isinstance(sales_data, (dict, list)) else str(sales_data),
+            "data_text": data_text,
             "timestamp": datetime.datetime.now().isoformat()
         }
     
@@ -92,6 +100,9 @@ class MarketingReportAgent:
             return {"success": True, "result": result}
             
         except Exception as e:
+            print(f"ERROR executing tool {tool_name}: {str(e)}")
+            import traceback
+            traceback.print_exc()
             return {"error": f"Tool execution failed: {str(e)}"}
     
     def parse_tool_calls(self, llama_response):
@@ -174,21 +185,27 @@ You can call multiple tools. Be thorough - gather all relevant data for brands, 
     def _generate_final_report(self, executed_tools):
         """Generate comprehensive marketing report with all collected data"""
         
-            # Create comprehensive report prompt with all text data including sales data
+        # Format the collected data for the report
+        brand_data_str = json.dumps({k: v['data_text'] for k, v in self.collected_data['brands'].items()}, indent=2) if self.collected_data['brands'] else "No brand data collected"
+        location_data_str = json.dumps({k: v['data_text'] for k, v in self.collected_data['locations'].items()}, indent=2) if self.collected_data['locations'] else "No location data collected"
+        image_data_str = json.dumps({k: v['data_text'] for k, v in self.collected_data['images'].items()}, indent=2) if self.collected_data['images'] else "No image data collected"
+        sales_data_str = json.dumps({k: v['data_text'] for k, v in self.collected_data['sales_data'].items()}, indent=2) if self.collected_data['sales_data'] else "No sales data provided"
+        
+        # Create comprehensive report prompt with all text data including sales data
         report_prompt = f"""
             You are creating a comprehensive marketing and sales analysis report for business executives. This report will be printed and placed on someone's desk - it must be in PLAIN TEXT format only, no markdown, no formatting symbols, just readable business prose.
 
             BRAND DATA COLLECTED:
-            {json.dumps({k: v['data_text'] for k, v in self.collected_data['brands'].items()}, indent=2)}
+            {brand_data_str}
 
             LOCATION DATA COLLECTED:
-            {json.dumps({k: v['data_text'] for k, v in self.collected_data['locations'].items()}, indent=2)}
+            {location_data_str}
 
             IMAGE ANALYSIS DATA COLLECTED:
-            {json.dumps({k: v['data_text'] for k, v in self.collected_data['images'].items()}, indent=2)}
+            {image_data_str}
 
             SALES DATA COLLECTED:
-            {json.dumps({k: v['data_text'] for k, v in self.collected_data['sales_data'].items()}, indent=2)}
+            {sales_data_str}
 
             Create a detailed business report in PLAIN TEXT format that reads like a professional document. Structure it as follows:
 

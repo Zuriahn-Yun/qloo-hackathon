@@ -107,17 +107,17 @@
                                 <div class="space-y-3">
                                     <label for="sales_data" class="text-base font-semibold flex items-center gap-2">
                                         <i data-lucide="bar-chart-3" class="h-5 w-5 text-blue-400"></i>
-                                        Sales Data (JSON format)
+                                        Sales Data
                                     </label>
                                     <textarea
                                         id="sales_data"
                                         name="sales_data"
                                         rows="4"
-                                        placeholder='e.g., {"2023": 150000, "2024": 180000}'
+                                        placeholder='Any format: JSON, CSV, plain text, etc.&#10;Examples:&#10;- 2023: 150000, 2024: 180000&#10;- Q1: $150k, Q2: $180k&#10;- Weekly sales increased 20%'
                                         required
-                                        class="flex w-full rounded-md border-2 border-gray-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
+                                        class="flex w-full rounded-md border-2 border-gray-700 bg-gray-900 text-white px-3 py-2 text-base focus:border-blue-500 focus:outline-none font-mono text-sm"
                                     ></textarea>
-                                    <p class="text-sm text-gray-400">Sales data in JSON format</p>
+                                    <p class="text-sm text-gray-400">Enter sales data in any format (JSON, CSV, plain text, etc.)</p>
                                 </div>
 
                                 <div class="space-y-3">
@@ -271,21 +271,24 @@
         lucide.createIcons();
 
         // API Configuration
-        const API_URL = 'https://qloo-hackathon-npo3.onrender.com';
+        const API_URL = 'http://localhost:8000';
 
         // Form submission handler
         document.getElementById('sales-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(e.target);
-            let salesData;
+            let salesData = formData.get('sales_data').trim();
             
-            // Validate and parse sales data
-            try {
-                salesData = JSON.parse(formData.get('sales_data'));
-            } catch (error) {
-                showToast('Error', 'Invalid JSON format in sales data', 'error');
-                return;
+            // Try to parse as JSON if it looks like JSON, otherwise keep as string
+            if ((salesData.startsWith('{') && salesData.endsWith('}')) || 
+                (salesData.startsWith('[') && salesData.endsWith(']'))) {
+                try {
+                    salesData = JSON.parse(salesData);
+                } catch (error) {
+                    // If JSON parsing fails, keep as string - it's fine
+                    console.log('Sales data is not valid JSON, sending as text');
+                }
             }
 
             const data = {
@@ -313,8 +316,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(data),
-                    credentials: 'include'
+                    body: JSON.stringify(data)
                 });
 
                 const submitResult = await submitResponse.json();
@@ -328,8 +330,8 @@
                 // Update button text for report generation
                 submitText.textContent = 'Generating Report...';
                 
-                // Poll for report completion
-                await pollForReport(data.company);
+                // Poll for report completion using the report_id
+                await pollForReport(submitResult.report_id, data.company);
                 
                 // Reset form
                 e.target.reset();
@@ -348,15 +350,13 @@
         });
 
         // Poll for report completion
-        async function pollForReport(company) {
+        async function pollForReport(reportId, company) {
             const maxAttempts = 30; // 30 attempts with 2 second intervals = 1 minute max
             let attempts = 0;
             
             while (attempts < maxAttempts) {
                 try {
-                    const response = await fetch(`${API_URL}/get_report`, {
-                        credentials: 'include'
-                    });
+                    const response = await fetch(`${API_URL}/get_report/${reportId}`);
                     const result = await response.json();
                     
                     if (!response.ok) {
